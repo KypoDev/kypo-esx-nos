@@ -39,14 +39,7 @@ Citizen.CreateThread(function()
         local playerVeh = GetVehiclePedIsIn(playerPed, false)
 		local Speed = 80.0
         local playerPed = GetPlayerPed(-1)
-        local playerPedId = PlayerPedId()
         local playerPed = PlayerPedId()
-        local playerX, playerY, playerZ = table.unpack(GetEntityCoords(playerPed))
-        local playerH = GetEntityHeading(playerPed)
-        local playerHealth = GetEntityHealth(playerPed)
-        local playerSpeed = GetEntitySpeed(playerPed)
-        local playerType = GetEntityPopulationType(playerPed)
-        local playerNear = GetPedNearbyVehicles(playerPed)
         local vehicle = GetPlayersLastVehicle()
 	
 		if IsControlPressed(1, 38) and NosOn then
