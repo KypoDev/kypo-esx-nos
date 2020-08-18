@@ -14,5 +14,5 @@ end)
 RegisterServerEvent('kypo-esx-nos:removeInventoryItem')
 AddEventHandler('kypo-esx-nos:removeInventoryItem', function(item, quantity)
     local xPlayer = ESX.GetPlayerFromId(source)
-    xPlayer.removeInventoryItem(item, quantity) -- remove item when use
+    xPlayer.removeInventoryItem('nos', 1) -- remove item when use
 end)
