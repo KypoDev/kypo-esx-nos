@@ -18,32 +18,46 @@ RegisterNetEvent('esx:setJob')
 AddEventHandler('esx:setJob', function(job)
   PlayerData.job = job
 end)
+----
 
+----
 
 local NosOn = false-- Define NOS
 
 Citizen.CreateThread(function()
+  while true do 
+    Citizen.Wait(700)
+      if not inCar and IsPedInAnyVehicle(PlayerPedId(), false) then
+           inCar = true
+      elseif inCar and not IsPedInAnyVehicle(PlayerPedId(), false) then
+           inCar = false
+      end
+  end 
+end)
+
+Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
-        local playerVeh = GetVehiclePedIsIn(playerPed, false)
-		local Speed = 80.0
+        local CoolDown = 5000
+        local Speed = 180.0
         local playerPed = GetPlayerPed(-1)
+        local vehicle2 = GetVehiclePedIsIn(playerPed, false)
         local playerPed = PlayerPedId()
         local vehicle = GetPlayersLastVehicle()
-	
-		if IsControlPressed(1, 38) and NosOn then
-			SetVehicleBoostActive(vehicle, 1, 0)
-            SetVehicleBoostActive(vehicle, 1, 0)
+
+        if inCar and IsControlJustReleased(0, 38) and NosOn then
+            SetVehicleBoostActive(vehicle, 1, 100)
+            SetVehicleRocketBoostPercentage(vehicle, 11000)
             SetVehicleRocketBoostActive(vehicle, true)
-            SetVehicleRocketBoostPercentage(vehicle, 1000)
             StartScreenEffect("RaceTurbo", 0, 0)
             SetVehicleOnGroundProperly(vehicle)
             SetEnableVehicleSlipstreaming(true)
-            Citizen.Wait(1000)
+            exports['progressBars']:startUI(CoolDown, "NOS")
+            Citizen.Wait(CoolDown)
             SetVehicleRocketBoostActive(vehicle, true)
             SetVehicleRocketBoostPercentage(vehicle, 0)
             SetEnableVehicleSlipstreaming(false)
-			NosOn = false
+            NosOn = false
         end
     end
 end)
